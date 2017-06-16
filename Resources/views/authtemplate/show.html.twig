@@ -1,0 +1,47 @@
+{% extends baseTemplate %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ authObject.id }}</td>
+            </tr>
+            {% for entityProperty in entityProperties %}
+            <tr>
+                <th>{{ entityProperty.label }}</th>
+                    {% if attribute(authObject,entityProperty.name) is iterable %}
+                            <td>
+                            {% for iterableItem in attribute(authObject,entityProperty.name) %}
+                                {{ iterableItem }} <br />
+                            {% endfor %}
+                            </td>
+					{% elseif attribute(authObject,entityProperty.name) is instanceof('\DateTime') %}
+						<td> {{ attribute(authObject,entityProperty.name) |date('d.m.Y H:i:s') }} </td>
+					{% elseif attribute(authObject,entityProperty.name) is bool_value %}
+						<td> {{ attribute(authObject,entityProperty.name)|boolean }} </td>
+					{% else %}
+						<td> {{ attribute(authObject,entityProperty.name) }} </td>
+					{% endif %}
+            </tr>            
+
+            {% endfor %}            
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path(indexPath) }}">Вернуться к списку</a>
+        </li>
+        <li>
+            <a href="{{ path(editPath, { 'id': authObject.id }) }}">Редактировать</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

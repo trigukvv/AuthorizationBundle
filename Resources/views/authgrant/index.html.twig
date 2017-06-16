@@ -1,0 +1,40 @@
+{% extends baseTemplate %}
+
+{% block body %}
+    <h1>Выданные разрешения</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Роль</th>
+                <th>Объект</th>
+                <th>Масштаб</th>
+                <th>Разрешения</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for authGrant in authGrants %}
+            <tr>
+                <td>{{ authGrant[0] }}</td>
+                <td>{{ authGrant[1] }}</td>
+                <td>{{ authGrant[2] }}</td>
+                <td>{{ authGrant[3] }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_authgrant_edit', { 'role_id': authGrant[4], 'object_id': authGrant[5], 'scope_id': authGrant[6] }) }}">редактировать</a>
+                        </li>
+                    </ul>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <ul>
+        <li>
+            <a href="{{ path('admin_authgrant_new') }}">Создать новый</a>
+        </li>
+    </ul>
+{% endblock %}

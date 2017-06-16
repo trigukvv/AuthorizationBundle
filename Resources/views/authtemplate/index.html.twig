@@ -1,0 +1,62 @@
+{% extends baseTemplate %}
+
+{% block body %}
+    <h1> {{ title }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                {% for entityProperty in entityProperties %}
+                    {% if not (entityProperty.doNotShowInIndex is defined) or not entityProperty.doNotShowInIndex %}
+                        <th> {{ entityProperty.label }} </th>
+                    {% endif %} 
+                {% endfor %}
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for authObject in authObjects %}
+            <tr>
+                <td><a href="{{ path('admin_authobject_show', { 'id': authObject.id }) }}">{{ authObject.id }}</a></td>
+                
+                {% for entityProperty in entityProperties %}
+                    {% if not (entityProperty.doNotShowInIndex is defined) or not entityProperty.doNotShowInIndex %}
+                        {% if attribute(authObject,entityProperty.name) is iterable %}
+                            <td>
+                            {% for iterableItem in attribute(authObject,entityProperty.name) %}
+                                {{ iterableItem }} <br />
+                            {% endfor %}
+                            </td>
+                        {% elseif attribute(authObject,entityProperty.name) is instanceof('\DateTime') %}
+                            <td> {{ attribute(authObject,entityProperty.name) |date('d.m.Y H:i:s') }} </td>
+                        {% elseif attribute(authObject,entityProperty.name) is bool_value %}
+                            <td> {{ attribute(authObject,entityProperty.name)|boolean }} </td>
+                        {% else %}
+                            <td> {{ attribute(authObject,entityProperty.name) }} </td>
+                        {% endif %}
+                    {% endif %} 
+                {% endfor %}
+                
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path(showPath, { 'id': authObject.id }) }}">просмотр</a>
+                        </li>
+                        <li>
+                            <a href="{{ path(editPath, { 'id': authObject.id }) }}">редактировать</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ renderPaginator(authObjects,baseRoute) }}
+    <ul>
+        <li>
+            <a href="{{ path(newPath) }}">Создать новый</a>
+        </li>
+    </ul>
+{% endblock %}

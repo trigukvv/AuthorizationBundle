@@ -1,0 +1,16 @@
+{% extends baseTemplate %}
+
+{% block body %}
+    <h1>Выдача разрешения</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Создать" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_authgrant_index') }}">Вернуться к списку</a>
+        </li>
+    </ul>
+{% endblock %}

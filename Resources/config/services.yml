@@ -1,0 +1,64 @@
+parameters:
+    userEntity:       AppBundle:User
+    bundleShortName:       trigukAuthorizationBundle
+    
+services:
+#    triguk_authorization.example:
+#        class: triguk\AuthorizationBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    triguk.formatter.authgrantformatter:
+        class:        triguk\AuthorizationBundle\Formatter\AuthGrantFormatter
+
+    triguk.form.type.authGrant:
+        class: triguk\AuthorizationBundle\Form\AuthGrantType
+        arguments: ["%userEntity%","%bundleShortName%"]
+        tags:
+            - { name: form.type }
+    
+    triguk.security.voter_index_filter:
+        class:  triguk\AuthorizationBundle\Security\VoterIndexFilter
+        autowire: true
+
+    triguk.helper.entity_name_extractor:
+        class:    triguk\AuthorizationBundle\Helper\ORMEntityNameExtractor
+        autowire: true
+
+    triguk.security.orm_permission_checker:
+        class:    triguk\AuthorizationBundle\Security\ORMPermissionChecker
+        autowire: true
+
+    triguk.security.sidebar_menu_builder:
+        class:    triguk\AuthorizationBundle\Security\ORMSidebarMenuBuilder
+        autowire: true
+        
+    triguk.security.auth_voter:
+        class:    triguk\AuthorizationBundle\Security\AuthVoter
+        arguments: ["@triguk.security.orm_permission_checker"]
+        tags:
+            - { name: security.voter }        
+        public: false        
+
+    triguk.instance_of_twig_extension:
+        class: triguk\AuthorizationBundle\Twig\InstanceOfTwigExtension
+        public: false
+        tags:
+            - { name: twig.extension }        
+
+    triguk.boolean_twig_extension:
+        class: triguk\AuthorizationBundle\Twig\BooleanTwigExtension
+        public: false
+        tags:
+            - { name: twig.extension }     
+
+    triguk.isgranted_twig_extension:
+        class: triguk\AuthorizationBundle\Twig\IsGrantedTwigExtension
+        arguments: ["@security.authorization_checker"]
+        public: false
+        tags:
+            - { name: twig.extension }  
+
+    triguk.render_paginator_extension:
+        class: triguk\AuthorizationBundle\Twig\RenderPaginatorExtension
+        public: false
+        tags:
+            - { name: twig.extension }

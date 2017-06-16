@@ -1,0 +1,15 @@
+{% extends baseTemplate %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path(indexPath) }}">Вернуться к списку</a>
+        </li>
+    </ul>
+{% endblock %}
