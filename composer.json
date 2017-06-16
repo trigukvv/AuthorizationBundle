@@ -1,0 +1,30 @@
+{
+    "name" : "triguk/AuthorizationBundle",
+    "description" : "A bundle for Symfony framework providing user-configurable authorization logic",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "trigukvv",
+        "email" : "triguk_vv@tut.by"
+    }],
+    "keywords" : [
+        "Authorization"
+    ],
+    "license" : [
+        "MIT"
+    ],
+    "require" : {
+    },
+    "autoload" : {
+        "psr-0" : {
+            "triguk\\AuthorizationBundle" : ""
+        }
+    },
+    "target-dir" : "triguk/AuthorizationBundle",
+    "repositories" : [{
+    }],
+    "extra" : {
+    "branch-alias" : {
+            "dev-master" : "some_version-dev"
+        }
+    }
+}
