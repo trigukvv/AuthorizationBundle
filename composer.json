@@ -1,5 +1,5 @@
 {
-    "name" : "triguk/AuthorizationBundle",
+    "name" : "trigukvv/AuthorizationBundle",
     "description" : "A bundle for Symfony framework providing user-configurable authorization logic",
     "type" : "symfony-bundle",
     "authors" : [{
